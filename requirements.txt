@@ -1,0 +1,11 @@
+numpy
+scikit-learn
+scipy
+jupyterlab
+cython
+seaborn
+xlrd
+nltk
+pandas
+flask
+gunicorn

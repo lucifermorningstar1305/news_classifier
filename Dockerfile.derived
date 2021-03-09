@@ -1,0 +1,4 @@
+FROM tesseract13/news_clf:latest
+WORKDIR /work
+COPY . /work
+ENTRYPOINT ["python3", "-u", "app.py"]
