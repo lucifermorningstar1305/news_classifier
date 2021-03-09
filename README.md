@@ -79,13 +79,11 @@ To run the project in your local setup follow these steps:
 
 ### Use Model as API
 
-I already have an instance of this model running at https://newsclass.herokuapp.com/ . In-case one desires to use my API please follow these steps:
+I already have an instance of this model running at https://newsclass.herokuapp.com/ . In-case one desires to use my API please follow use the following cURL:
 
-```
-Choose a GET REQUEST
-Paste the following URL : https://newsclass.herokuapp.com/predict
-In the Query param enter a field with name : 'text' and value corresponding to the news article headline
-Done!
+```cURL
+curl --request GET \
+  --url 'https://newsclass.herokuapp.com/predict?text=A%20fashion%20industry%20that%20was%20born%20in%20the%20garage%20of%20Kolapur%20is%20seeing%20immense%20success.'
 ```
 
 
