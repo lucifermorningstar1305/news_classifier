@@ -88,6 +88,14 @@ curl --request GET \
 
 
 
+### Check for First Hand
+
+If you would like to see the world’s best designed website and try the immensely advanced News classification AI please visit the following site.(pun intended)
+
+https://newsclass.herokuapp.com/categorize
+
+P.S. : I’m not responsible for any headache, eye blur, nausea etc. after you visit the above site.
+
 ### Acknowledgements
 
 Building this project wouldn’t have been successful without help from these websites:
