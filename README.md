@@ -79,7 +79,7 @@ To run the project in your local setup follow these steps:
 
 ### Use Model as API
 
-I already have an instance of this model running at https://newsclass.herokuapp.com/ . In-case one desires to use my API please follow use the following cURL:
+I already have an instance of this model running at https://newsclass.herokuapp.com/ . In-case one desires to use my API please follow use the following curl:
 
 ```cURL
 curl --request GET \
