@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, render_template
 import json
 import os
 
@@ -20,6 +20,16 @@ def predict_news():
 
 	return json.dumps({"message":f"This is a {prediction} news", "probability":prob, "statusCode":200})
 
+@app.route("/categorize")
+def categorize_news():
+	return render_template('predict.html')
+
+@app.route("/predict_data", methods=["POST"])
+def predict_data():
+	news = request.form['news']
+	prediction, prob = predict(news)
+
+	return json.dumps({"news":news, "message": f'This news belongs to {prediction}', "probability":prob, "statusCode":200})
 
 if __name__ == "__main__":
 
