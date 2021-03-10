@@ -80,7 +80,6 @@ def train(model, optimizer, train_iter, val_iter, criterion=nn.CrossEntropyLoss(
 			targets = targets.to(device)
 
 			optimizer.zero_grad()
-
 			y_pred = model(inputs, inputs_len)
 
 			loss = criterion(y_pred, targets)
@@ -133,11 +132,11 @@ def train(model, optimizer, train_iter, val_iter, criterion=nn.CrossEntropyLoss(
 		valid_f1.append(vf1)
 		valid_acc.append(vacc)
 
-		wandb.log({
-			'val_loss':vloss,
-			'val_acc':vacc,
-			'val_f1':vf1
-			})
+		# wandb.log({
+		# 	'val_loss':vloss,
+		# 	'val_acc':vacc,
+		# 	'val_f1':vf1
+		# 	})
 
 
 	return train_losses, valid_losses, valid_acc, valid_f1

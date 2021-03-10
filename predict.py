@@ -6,7 +6,7 @@ import os
 import sys
 from datetime import datetime
 
-from src.utils import preprocess
+from src.utils import preprocess, load_glove_vectors, get_embedd_matrix
 from src.model import Classifier
 
 
@@ -85,14 +85,27 @@ def predict(text):
 	print(text)
 
 	vocab, classes = build_vocab_class()
+	
+	vocab_vec = None
 
-	encoded_sent = encode_sentence(text, vocab)
+	if not os.path.exists("./model/vocab_vector.100d.pt"): # If there are no model for GLoVE
+		glove_vectors = load_glove_vectors("./model/glove.6B.100d.txt")
+		vocab_vec = torch.from_numpy(get_embedd_matrix(glove_vectors, vocab, embedd_size=100))
+		torch.save(vocab_vec, './model/vocab_vector.100d.pt')
+
+	else:
+		vocab_vec = torch.load('./model/vocab_vector.100d.pt')
+
+
+	encoded_sent = encode_sentence(text, vocab, min_length=30)
 
 	encoded_sent = torch.from_numpy(np.asarray(encoded_sent)) # Convert to Pytorch Tensor
 
 	encoded_sent = encoded_sent.unsqueeze(0) # Add batch dimension
 
-	model = Classifier(len(vocab), len(classes), 20, hidden_dim=15, drop_val=0.25, device=torch.device("cpu")) # Create an instance of the model
+	device = torch.device("cpu")
+
+	model = Classifier(len(vocab), len(classes), 100, hidden_dim=128, embedd_vec = vocab_vec, drop_val=0.5, bidirectional=True, is_trainable=False, device=device) # Initialize the model
 
 	model = load_model(model, file_path="./model/model.pt") # Load the model
 

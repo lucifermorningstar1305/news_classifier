@@ -100,21 +100,19 @@ def load_glove_vectors(file_path):
 
 def get_embedd_matrix(pretrained_vec, vocab2idx, embedd_size=50):
 
-	vocab_size = len(vocab2idx) + 2
+	vocab_size = len(vocab2idx)
 
 	W = np.zeros((vocab_size, embedd_size), dtype='float32')
-	W[0] = np.zeros(embedd_size, dtype='float32') # adding a vector for padding
-	W[1] = np.random.uniform(-0.25, 0.25, embedd_size) # adding a vector for <UNK> token
-
+	W[0] = np.random.uniform(-0.25, 0.25, embedd_size) # adding a vector for <UNK> token
+	W[1] = np.zeros(embedd_size, dtype='float32') # adding a vector for padding
+	
 	i = 2
 	for words in vocab2idx.keys():
 
-		if words not in ['', 'UNK']:
+		if words not in ['<unk>', '<pad>']:
 
 			W[i] = pretrained_vec.get(words, np.random.uniform(-0.25, 0.25, embedd_size))
-
-
-		i += 1
+			i += 1
 
 
 	return W

@@ -45,25 +45,26 @@ if __name__ == "__main__":
 
 	
 	# Get the classes
-	classes = pd.read_csv("../DATA/News/class_list.csv")
+	classes = pd.read_csv("../../DATA/News/class_list.csv")
 	n_classes = classes.shape[0]
 
 	# Define TEXT and LABEL Fields
 
-	TEXT = td.Field(sequential=True, batch_first=True, lower=False, tokenize=str.split, fix_length=10, pad_first=True, include_lengths=True)
+	TEXT = td.Field(sequential=True, batch_first=True, lower=False, tokenize=str.split, fix_length=20, pad_first=True, include_lengths=True)
 	LABEL = td.Field(sequential=False, use_vocab=False, is_target=True)
 
 	train_dataset = td.TabularDataset(path="../../DATA/News/train.csv", format='csv', skip_header=True, fields=[('target', LABEL), ('text', TEXT)])
 	valid_dataset = td.TabularDataset(path="../../DATA/News/valid.csv", format='csv', skip_header=True, fields=[('target', LABEL), ('text', TEXT)])
 
 	# Build vocabulary
-	TEXT.build_vocab(train_dataset, min_freq=5)
+	TEXT.build_vocab(train_dataset, min_freq=5, vectors="glove.6B.100d")
 
 	vocab = TEXT.vocab
+	vocab_vec = vocab.vectors
 
 	# Save the vocabulary
 	vocab_df = pd.DataFrame({"words":list(vocab.stoi.keys()), "index":list(vocab.stoi.values())})
-	vocab_df.to_csv("../DATA/News/vocab.csv", index=False)
+	vocab_df.to_csv("../../DATA/News/vocab.csv", index=False)
 
 	print(f'Vocab length: {len(vocab)}')
 
@@ -75,7 +76,7 @@ if __name__ == "__main__":
 
 	device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
-	model = Classifier(len(vocab), n_classes, 20, hidden_dim=15, drop_val=0.25, device=device)
+	model = Classifier(len(vocab), n_classes, 100, hidden_dim=128, embedd_vec = vocab_vec, drop_val=0.5, bidirectional=True, is_trainable=False, device=device)
 
 	model = model.to(device)
 
@@ -87,9 +88,9 @@ if __name__ == "__main__":
 
 	if config['action'] == 'train':
 		# Initialize wandb for logging metrics
-		wandb.init(project='news-classifier', config=config)
+		# wandb.init(project='news-classifier', config=config)
 
-		wandb.watch(model, log='all')
+		# wandb.watch(model, log='all')
 		print('Launching training.....')
 
 		train_losses, valid_losses, valid_acc, valid_f1 = train(model, optimizer, 
@@ -106,7 +107,7 @@ if __name__ == "__main__":
 
 	elif config['action'] == 'test':
 
-		model = Classifier(len(vocab), n_classes, 20, hidden_dim=15, drop_val=0.25, device=torch.device("cpu"))
+		model = Classifier(len(vocab), n_classes, 100, hidden_dim=128, embedd_vec = vocab_vec, drop_val=0.5, bidirectional=True, is_trainable=False, device=device)
 
 		optimizer = torch.optim.Adam(model.parameters(), lr=config['learning_rate'])
 

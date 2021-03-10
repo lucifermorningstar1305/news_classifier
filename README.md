@@ -39,9 +39,9 @@ Before anyone judges the model prediction, it’s better to highlight it’s met
 
 ```json
 {
-	"validation-Loss" :  1.2118033170700073,
-	"validation-accuracy" : 0.6360628498134329,
-	"validation-f1-score" : 0.6272426502239625
+	"validation-Loss" :  0.9855936765670776,
+	"validation-accuracy" : 0.6870287235696517,
+	"validation-f1-score" : 0.6782588026274302
 }
 ```
 
@@ -52,25 +52,25 @@ Before anyone judges the model prediction, it’s better to highlight it’s met
 To run the project in your local setup follow these steps:
 
 ```text
-									==================================
-											To Train the model
-									==================================
+==================================
+To Train the model
+==================================
 									
-	1. Clone the repo using git clone https://github.com/lucifermorningstar1305/news_classifier.git
-	2. cd src
-	3. python3 init.py --action train --epochs <number of epochs> --train_batch_sz <training-batch size>
-	4. Wait for the model to train
+1. Clone the repo using git clone https://github.com/lucifermorningstar1305/news_classifier.git
+2. cd src
+3. python3 init.py --action train --epochs <number of epochs> --train_batch_sz <training-batch size>
+4. Wait for the model to train
 	
 	
-								============================================
-											To Test the model
-								=============================================
+============================================
+To Test the model
+=============================================
 								
-	1. python3 app.py 
-	2. Choose GET REQUEST
-	3. Paste this URL : http://localhost:5000/predict/
-	4. In the Query param enter a field with name : 'text' and value corresponding to the news article headline
-	5. Done!
+1. python3 app.py 
+2. Choose GET REQUEST
+3. Paste this URL : http://localhost:5000/predict/
+4. In the Query param enter a field with name : 'text' and value corresponding to the news article headline
+5. Done!
 ```
 
 
@@ -90,7 +90,7 @@ curl --request GET \
 
 ### Check for First Hand
 
-If you would like to see the world’s best designed website and try the immensely advanced News classification AI please visit the following site.(pun intended)
+If you would like to see the world’s best designed website and try the immensely advanced News classification AI please visit the following site. (pun intended)
 
 https://newsclass.herokuapp.com/categorize
 
